@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Privacy Policy — FractalX</title>
+
+    <!-- ── Favicons ── -->
+    <link rel="icon" type="image/x-icon" href="./assets/images/favicon/favicon.ico"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/images/favicon/favicon-16x16.png"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon/favicon-32x32.png"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/images/favicon/apple-touch-icon.png"/>
+    <link rel="icon" type="image/png" sizes="192x192" href="./assets/images/favicon/android-chrome-192x192.png"/>
+    <link rel="icon" type="image/png" sizes="512x512" href="./assets/images/favicon/android-chrome-512x512.png"/>
+
+    <!-- ── SEO ── -->
+    <meta name="description" content="FractalX Privacy Policy — how we collect, use, and protect your information on the FractalX pre-launch website."/>
+    <meta name="robots" content="noindex, follow"/>
+    <meta name="author" content="FractalX"/>
+    <link rel="canonical" href="https://fractalx.org/privacy.html"/>
+
+    <!-- ── Open Graph ── -->
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="https://fractalx.org/privacy.html"/>
+    <meta property="og:site_name" content="FractalX"/>
+    <meta property="og:title" content="Privacy Policy — FractalX"/>
+    <meta property="og:description" content="FractalX Privacy Policy — how we collect, use, and protect your information."/>
+    <meta property="og:image" content="https://fractalx.org/assets/images/og-image.png"/>
+    <meta property="og:locale" content="en_US"/>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+    <style>
+        :root {
+            --cobalt:    #3a5bff;
+            --indigo:    #4433cc;
+            --violet:    #7b5ea7;
+            --deep-blue: #1a1a6e;
+            --periwinkle:#8899ff;
+            --lavender:  #c0b8f8;
+            --sky:       #aac8ff;
+            --white:     #ffffff;
+            --glass-bg:  rgba(255,255,255,0.07);
+            --glass-border: rgba(255,255,255,0.15);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { height: 100%; overflow-x: hidden; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--white);
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* ── Grain ── */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            opacity: 0.045;
+            mix-blend-mode: soft-light;
+        }
+
+        /* ── Background ── */
+        .bg {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background:
+                radial-gradient(ellipse 80% 80% at 15% 10%, #4466ff 0%, transparent 60%),
+                radial-gradient(ellipse 60% 60% at 85% 80%, #7733cc 0%, transparent 55%),
+                radial-gradient(ellipse 70% 50% at 50% 50%, #2244bb 0%, transparent 70%),
+                linear-gradient(160deg, #0e0e5a 0%, #1a1080 35%, #2a1a8a 60%, #3d1470 100%);
+        }
+
+        .blob1 {
+            position: absolute;
+            top: -20%; left: -10%;
+            width: 70vw; height: 70vw;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(100,140,255,0.5) 0%, transparent 65%);
+            animation: drift 20s ease-in-out infinite;
+            filter: blur(50px);
+        }
+        .blob2 {
+            position: absolute;
+            bottom: -15%; right: -5%;
+            width: 60vw; height: 60vw;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(120,60,200,0.55) 0%, transparent 65%);
+            animation: driftB 25s ease-in-out infinite;
+            filter: blur(55px);
+        }
+
+        @keyframes drift {
+            0%  { transform: translate(0,0) scale(1); }
+            33% { transform: translate(25px,-20px) scale(1.05); }
+            66% { transform: translate(-15px,18px) scale(0.97); }
+            100%{ transform: translate(0,0) scale(1); }
+        }
+        @keyframes driftB {
+            0%  { transform: translate(0,0) scale(1); }
+            33% { transform: translate(-22px,22px) scale(1.03); }
+            66% { transform: translate(18px,-12px) scale(0.98); }
+            100%{ transform: translate(0,0) scale(1); }
+        }
+        @keyframes fadeIn  { from { opacity:0 } to { opacity:1 } }
+        @keyframes fadeUp  { from { opacity:0; transform:translateY(20px) } to { opacity:1; transform:translateY(0) } }
+        @keyframes pulse {
+            0%,100%{ opacity:0.45; box-shadow:0 0 6px #a0c0ff55; }
+            50%    { opacity:1;    box-shadow:0 0 10px #a0c0ffaa; }
+        }
+
+        /* ── Nav ── */
+        nav {
+            width: 100%;
+            max-width: 1200px;
+            padding: 32px 44px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: fadeIn 0.9s ease both;
+            position: relative;
+            z-index: 10;
+        }
+        .nav-logo { display:flex; align-items:center; gap:12px; text-decoration:none; }
+        .nav-brand {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            letter-spacing: 0.14em;
+            background: linear-gradient(90deg, #ffffff, var(--lavender));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .nav-back {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            color: rgba(200,210,255,0.6);
+            text-decoration: none;
+            border: 1px solid rgba(160,180,255,0.2);
+            padding: 7px 16px;
+            border-radius: 100px;
+            backdrop-filter: blur(12px);
+            background: rgba(100,120,255,0.08);
+            transition: color 0.2s, border-color 0.2s, background 0.2s;
+        }
+        .nav-back:hover {
+            color: rgba(220,230,255,0.9);
+            border-color: rgba(160,180,255,0.4);
+            background: rgba(100,120,255,0.16);
+        }
+
+        /* ── Content ── */
+        .content {
+            width: 100%;
+            max-width: 760px;
+            padding: 20px 44px 80px;
+            position: relative;
+            z-index: 10;
+            animation: fadeUp 0.7s 0.2s ease both;
+        }
+
+        .page-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.28em;
+            color: var(--lavender);
+            opacity: 0.7;
+            margin-bottom: 16px;
+        }
+
+        .page-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(48px, 8vw, 80px);
+            letter-spacing: -0.01em;
+            line-height: 0.95;
+            background: linear-gradient(180deg, #ffffff 0%, rgba(180,200,255,0.85) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .effective-date {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.14em;
+            color: rgba(180,200,255,0.35);
+            margin-bottom: 48px;
+        }
+
+        .divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(140,160,255,0.3), transparent);
+            margin-bottom: 48px;
+        }
+
+        .section {
+            margin-bottom: 44px;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 20px;
+            letter-spacing: 0.12em;
+            color: var(--lavender);
+            margin-bottom: 14px;
+        }
+
+        .section p {
+            font-size: 14.5px;
+            font-weight: 300;
+            line-height: 1.85;
+            color: rgba(200,215,255,0.65);
+            margin-bottom: 12px;
+        }
+
+        .section p:last-child { margin-bottom: 0; }
+
+        .section ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 4px;
+        }
+
+        .section ul li {
+            display: flex;
+            gap: 12px;
+            font-size: 14.5px;
+            font-weight: 300;
+            line-height: 1.75;
+            color: rgba(200,215,255,0.65);
+        }
+
+        .section ul li::before {
+            content: '◆';
+            font-size: 7px;
+            color: var(--periwinkle);
+            opacity: 0.6;
+            margin-top: 7px;
+            flex-shrink: 0;
+        }
+
+        .contact-card {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 16px;
+            padding: 14px 22px;
+            border: 1px solid rgba(140,160,255,0.2);
+            border-radius: 12px;
+            background: rgba(80,100,255,0.08);
+            backdrop-filter: blur(12px);
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.06em;
+            color: rgba(200,215,255,0.7);
+        }
+
+        /* ── Footer ── */
+        footer {
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px 44px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 11.5px;
+            color: rgba(180,200,255,0.3);
+            letter-spacing: 0.03em;
+            position: relative;
+            z-index: 10;
+            margin-top: auto;
+            border-top: 1px solid rgba(120,140,255,0.08);
+        }
+        .footer-links { display:flex; gap:24px; }
+        .footer-links a { color:rgba(180,200,255,0.3); text-decoration:none; transition:color 0.2s; }
+        .footer-links a:hover { color:rgba(220,230,255,0.8); }
+
+        @media(max-width:600px){
+            nav { padding:20px; }
+            .content { padding:20px 20px 60px; }
+            footer { padding:16px 20px; flex-direction:column; gap:10px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg">
+    <div class="blob1"></div>
+    <div class="blob2"></div>
+</div>
+
+<nav>
+    <a class="nav-logo" href="./index.html">
+        <img src="./assets/images/icon.png" alt="FractalX icon" style="width:24px;"/>
+        <span class="nav-brand">FractalX</span>
+    </a>
+    <a class="nav-back" href="./index.html">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+            <path d="M13 8H3M7 12L3 8L7 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        BACK
+    </a>
+</nav>
+
+<main class="content">
+    <div class="page-label">LEGAL</div>
+    <h1 class="page-title">Privacy Policy</h1>
+    <div class="effective-date">EFFECTIVE DATE: FEBRUARY 2026</div>
+    <div class="divider"></div>
+
+    <div class="section">
+        <div class="section-title">Overview</div>
+        <p>FractalX ("we", "us", or "our") is committed to protecting your privacy. This policy explains what information we collect on this website, how we use it, and your rights regarding that information.</p>
+        <p>This site is a pre-launch landing page for the FractalX platform — a Java microservices framework. The only personal data we collect is your email address if you choose to sign up for early access notifications.</p>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Information We Collect</div>
+        <p>We collect only what is necessary:</p>
+        <ul>
+            <li><strong>Email address</strong> — submitted voluntarily via the early access sign-up form. We do not collect names, payment details, or any other personal information at this stage.</li>
+            <li><strong>Usage data</strong> — standard server logs may include your IP address, browser type, and pages visited. This data is not linked to your email address and is used only for diagnosing issues and understanding aggregate traffic.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <div class="section-title">How We Use Your Information</div>
+        <p>Your email address is used exclusively to:</p>
+        <ul>
+            <li>Notify you when FractalX launches or early access becomes available</li>
+            <li>Send occasional product updates relevant to the launch</li>
+        </ul>
+        <p>We will never sell, rent, or share your email address with third parties for marketing purposes.</p>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Data Storage &amp; Security</div>
+        <p>Email addresses are stored securely and access is restricted to the FractalX team. We apply reasonable technical measures to protect your data against unauthorised access, loss, or disclosure.</p>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Your Rights</div>
+        <p>You may at any time:</p>
+        <ul>
+            <li>Request deletion of your email address from our records</li>
+            <li>Opt out of any communications by replying to any email we send you</li>
+            <li>Request a copy of the information we hold about you</li>
+        </ul>
+        <p>To exercise any of these rights, contact us using the details below.</p>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Cookies</div>
+        <p>This site does not use tracking cookies or third-party analytics at this time. Google Fonts is loaded from Google's CDN, which may set its own cookies subject to <a href="https://policies.google.com/privacy" style="color:var(--lavender);opacity:0.7;">Google's Privacy Policy</a>.</p>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Changes to This Policy</div>
+        <p>We may update this policy as the FractalX platform evolves. Any changes will be reflected on this page with an updated effective date.</p>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Contact</div>
+        <p>For any privacy-related questions or requests:</p>
+        <div class="contact-card" id="privacyContact">
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+                <rect x="2" y="5" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.4"/>
+                <path d="M2 7L10 12L18 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+            <span id="contactDisplay">fractalx.dev [at] gmail.com</span>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <span>© <span id="year"></span> FractalX. All rights reserved.</span>
+    <div class="footer-links">
+        <a href="./privacy.html">Privacy</a>
+        <a href="#" id="contactLink">Contact</a>
+        <a href="https://www.linkedin.com/company/fractalx-dev/">LinkedIn</a>
+    </div>
+</footer>
+
+<script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    (function() {
+        const p = ['fractalx', '.dev', '\x40', 'gmail', '.com'];
+        const email = p.join('');
+
+        document.getElementById('contactLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = 'mailto:' + email;
+        });
+
+        const card = document.getElementById('privacyContact');
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', function() {
+            window.location.href = 'mailto:' + email;
+        });
+        card.addEventListener('mouseenter', function() {
+            document.getElementById('contactDisplay').textContent = email;
+        });
+        card.addEventListener('mouseleave', function() {
+            document.getElementById('contactDisplay').textContent = 'fractalx.dev [at] gmail.com';
+        });
+    })();
+</script>
+</body>
+</html>
