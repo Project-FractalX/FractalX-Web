@@ -3,670 +3,953 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>FractalX — Coming Soon</title>
-
-    <!-- ── Favicons ── -->
-    <link rel="icon" type="image/x-icon" href="./assets/images/favicon/favicon.ico"/>
-    <link rel="icon" type="image/png" sizes="16x16" href="./assets/images/favicon/favicon-16x16.png"/>
-    <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon/favicon-32x32.png"/>
-    <link rel="apple-touch-icon" sizes="180x180" href="./assets/images/favicon/apple-touch-icon.png"/>
-    <link rel="icon" type="image/png" sizes="192x192" href="./assets/images/favicon/android-chrome-192x192.png"/>
-    <link rel="icon" type="image/png" sizes="512x512" href="./assets/images/favicon/android-chrome-512x512.png"/>
-
-    <!-- ── SEO ── -->
-    <meta name="description" content="FractalX is a Java framework for building hybrid monolithic and microservice architectures with automatic service decomposition. One codebase, infinite scale."/>
-    <meta name="keywords" content="Java framework, microservices, monolithic architecture, hybrid architecture, service decomposition, distributed systems, Java microservices, FractalX, software framework"/>
-    <meta name="robots" content="index, follow"/>
-    <meta name="author" content="FractalX"/>
-    <link rel="canonical" href="https://fractalx.org/"/>
-
-    <!-- ── Open Graph ── -->
-    <meta property="og:type" content="website"/>
-    <meta property="og:url" content="https://fractalx.org/"/>
-    <meta property="og:site_name" content="FractalX"/>
-    <meta property="og:title" content="FractalX — The Java Framework for Hybrid Architectures"/>
-    <meta property="og:description" content="Build hybrid monolithic and microservice architectures with automatic service decomposition. FractalX is the Java framework that scales with your team."/>
-    <meta property="og:image" content="https://fractalx.org/assets/images/og-image.png"/>
-    <meta property="og:image:width" content="1200"/>
-    <meta property="og:image:height" content="630"/>
-    <meta property="og:image:alt" content="FractalX — Java Framework for Hybrid Architectures"/>
-    <meta property="og:locale" content="en_US"/>
-
-    <!-- ── Twitter Card ── -->
-    <meta name="twitter:card" content="summary_large_image"/>
-    <meta name="twitter:title" content="FractalX — The Java Framework for Hybrid Architectures"/>
-    <meta name="twitter:description" content="Build hybrid monolithic and microservice architectures with automatic service decomposition. FractalX is the Java framework that scales with your team."/>
-    <meta name="twitter:image" content="https://fractalx.org/assets/images/og-image.png"/>
-    <meta name="twitter:image:alt" content="FractalX — Java Framework for Hybrid Architectures"/>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+    <title>FractalX — Monolith to Microservices, One Command</title>
+    <meta name="description" content="FractalX is the static decomposition framework that converts modular monolithic Spring Boot applications into production-ready microservice platforms via AST analysis and code generation."/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- prevent flash of wrong theme -->
+    <script>
+        (function(){
+            const saved = localStorage.getItem('frx-theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const isLight = saved === 'light' || (!saved && !prefersDark);
+            if (isLight) document.documentElement.classList.add('light');
+        })();
+    </script>
     <style>
-        :root {
-            /* Warm orange-gold-lavender palette from the reference image */
-            --orange:       #ff5a1a;
-            --amber:        #dd6600;
-            --gold:         #ffaa00;
-            --deep-orange:  #8a2800;
-            --peach:        #ffb87a;
-            --cream:        #ffe8c8;
-            --lavender-bg:  #d8dcf0;
-            --white:        #ffffff;
-            --glass-bg:     rgba(255,255,255,0.1);
-            --glass-border: rgba(255,200,140,0.25);
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+        /* ── DARK THEME (default) ── */
+        :root{
+            --bg:#000;--bg1:#0a0a0a;--bg2:#111;--bg3:#1a1a1a;--bg4:#222;
+            --border:#1f1f1f;--border2:#272727;--border3:#333;--border4:#444;
+            --text:#ededed;--text2:#a1a1aa;--text3:#71717a;--text4:#3f3f46;--text5:#27272a;
+            --white:#fff;
+            /* brand palette */
+            --orange:#f4600c;--orange2:#e0540a;
+            --gold:#f5a800;--gold2:#d4920a;
+            --peri:#b8c4e0;--peri2:#8fa0c8;
+            --orange-dim:rgba(244,96,12,.10);--orange-glow:rgba(244,96,12,.18);
+            --gold-dim:rgba(245,168,0,.10);
+            --peri-dim:rgba(184,196,224,.08);
+            --green:#50e3c2;--green-dim:rgba(80,227,194,.08);
+            --blue:#3291ff;--blue-dim:rgba(50,145,255,.10);
+            --red:#ff4444;--red-dim:rgba(255,68,68,.08);
+            --nav-bg:rgba(0,0,0,.80);
+            --hero-grad:radial-gradient(ellipse 80% 50% at 50% -10%, rgba(244,96,12,.14) 0%, transparent 70%);
+            --card-hover:rgba(244,96,12,.05);
+            --code-bg:#0a0a0a;
+            --link:#f4600c;
+            --r:8px;--font:'Geist',sans-serif;--mono:'Geist Mono',monospace;
         }
 
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { height: 100%; overflow-x: hidden; }
-
-        body {
-            font-family: 'DM Sans', sans-serif;
-            color: #2a1000;
-            -webkit-font-smoothing: antialiased;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        /* ── LIGHT THEME ── */
+        html.light{
+            --bg:#fff;--bg1:#fafafa;--bg2:#f4f4f5;--bg3:#e4e4e7;--bg4:#d4d4d8;
+            --border:#e4e4e7;--border2:#d4d4d8;--border3:#a1a1aa;--border4:#71717a;
+            --text:#09090b;--text2:#52525b;--text3:#71717a;--text4:#a1a1aa;--text5:#d4d4d8;
+            --white:#09090b;
+            --orange:#d4510a;--orange2:#c04608;
+            --gold:#c47a00;--gold2:#a86800;
+            --peri:#4a5fa8;--peri2:#3a4f98;
+            --orange-dim:rgba(212,81,10,.07);--orange-glow:rgba(212,81,10,.12);
+            --gold-dim:rgba(196,122,0,.07);
+            --peri-dim:rgba(74,95,168,.07);
+            --green:#067a6f;--green-dim:rgba(6,122,111,.07);
+            --blue:#0070f3;--blue-dim:rgba(0,112,243,.07);
+            --red:#cc0000;--red-dim:rgba(204,0,0,.07);
+            --nav-bg:rgba(255,255,255,.85);
+            --hero-grad:radial-gradient(ellipse 80% 50% at 50% -10%, rgba(212,81,10,.08) 0%, transparent 70%);
+            --card-hover:rgba(212,81,10,.04);
+            --code-bg:#f4f4f5;
+            --link:#d4510a;
         }
 
-        /* ── Grain ── */
-        body::after {
-            content: '';
-            position: fixed;
-            inset: 0;
-            z-index: 200;
-            pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-            opacity: 0.04;
-            mix-blend-mode: soft-light;
-        }
+        html{scroll-behavior:smooth}
+        body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;font-size:15px;-webkit-font-smoothing:antialiased;transition:background .2s,color .2s;overflow-x:hidden}
+        ::-webkit-scrollbar{width:4px}
+        ::-webkit-scrollbar-thumb{background:var(--border3);border-radius:4px}
+        a{color:inherit;text-decoration:none}
 
-        /* ── Background — mirrors the blurred orange/gold/lavender blobs in the image ── */
-        .bg {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            background:
-                    radial-gradient(ellipse 80% 80% at 10% 15%, #ff5500 0%, transparent 55%),
-                    radial-gradient(ellipse 65% 65% at 88% 75%, #ffaa00 0%, transparent 55%),
-                    radial-gradient(ellipse 70% 55% at 55% 55%, #ffcc55 0%, transparent 60%),
-                    linear-gradient(150deg, #c8ccde 0%, #d8dcea 30%, #e8e4f2 60%, #d4d8e8 100%);
-        }
+        /* ── NAVBAR ── */
+        .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;display:flex;align-items:center;background:var(--nav-bg);backdrop-filter:blur(16px) saturate(180%);border-bottom:1px solid var(--border);transition:background .2s,border-color .2s}
+        .nav-inner{max-width:1120px;margin:0 auto;padding:0 24px;width:100%;display:flex;align-items:center;gap:32px}
+        .nav-logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:15px;color:var(--text);letter-spacing:-.2px;flex-shrink:0}
+        .logo-mark{width:28px;height:28px;border-radius:7px;display:grid;place-items:center;flex-shrink:0}
+        .logo-mark svg{width:14px;height:14px}
+        .nav-links{display:flex;align-items:center;gap:2px;margin-left:8px}
+        .nav-link{font-size:13.5px;color:var(--text2);padding:6px 11px;border-radius:6px;transition:color .15s,background .15s;cursor:pointer;white-space:nowrap}
+        .nav-link:hover{color:var(--text);background:var(--bg2)}
+        .nav-right{display:flex;align-items:center;gap:8px;margin-left:auto;flex-shrink:0}
+        .nav-badge{font-size:11px;font-family:var(--mono);color:var(--text3);background:var(--bg2);border:1px solid var(--border2);padding:3px 8px;border-radius:4px}
+        .nav-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;padding:7px 14px;border-radius:7px;cursor:pointer;transition:all .15s;border:none;font-family:var(--font)}
+        .nav-btn.ghost{background:transparent;color:var(--text2);border:1px solid var(--border2)}
+        .nav-btn.ghost:hover{color:var(--text);background:var(--bg2);border-color:var(--border3)}
+        .nav-btn.primary{background:var(--orange);color:#fff}
+        .nav-btn.primary:hover{background:var(--orange2)}
 
-        .logo {
-            width: 400px;
-            margin: 15px 15px 25px;
-        }
+        /* theme toggle */
+        .tt{width:34px;height:34px;border-radius:7px;border:1px solid var(--border2);background:var(--bg1);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .15s;padding:0;flex-shrink:0}
+        .tt:hover{border-color:var(--border3);background:var(--bg2)}
+        .tt svg{width:15px;height:15px;color:var(--text3);display:block;transition:color .15s}
+        .tt:hover svg{color:var(--text)}
+        .tt .ic-moon{display:block}
+        .tt .ic-sun{display:none}
+        html.light .tt .ic-moon{display:none}
+        html.light .tt .ic-sun{display:block}
 
-        @media(max-width:700px){
-            .logo { width: 90vw; }
-        }
+        /* ── HERO ── */
+        .hero{padding:148px 24px 100px;text-align:center;position:relative;overflow:hidden}
+        .hero::before{content:'';position:absolute;inset:0;background:var(--hero-grad);pointer-events:none}
+        /* subtle grid lines */
+        .hero::after{content:'';position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:.3;pointer-events:none;mask-image:radial-gradient(ellipse 70% 60% at 50% 0%,#000 30%,transparent 100%)}
+        html.light .hero::after{opacity:.15}
+        .hero-inner{max-width:820px;margin:0 auto;position:relative;z-index:1}
+        .hero-tag{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-family:var(--mono);color:var(--text3);background:var(--bg1);border:1px solid var(--border2);padding:5px 12px;border-radius:20px;margin-bottom:22px;cursor:default}
+        .hero-tag .dot{width:6px;height:6px;border-radius:50%;background:var(--orange);box-shadow:0 0 8px var(--orange)}
+        .hero-h1{font-size:clamp(38px,7vw,72px);font-weight:800;letter-spacing:-2.5px;line-height:1.04;color:var(--white);margin-bottom:20px}
+        .hero-h1 .hl{color:var(--orange)}
+        .hero-sub{font-size:clamp(15px,2vw,18px);color:var(--text2);line-height:1.7;max-width:560px;margin:0 auto 36px;font-weight:400}
+        .hero-ctas{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:56px}
+        .btn{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:500;padding:11px 22px;border-radius:8px;cursor:pointer;transition:all .15s;border:none;font-family:var(--font);white-space:nowrap}
+        .btn-primary{background:var(--orange);color:#fff;box-shadow:0 0 0 0 var(--orange-glow)}
+        .btn-primary:hover{background:var(--orange2);box-shadow:0 0 20px var(--orange-glow)}
+        .btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border2)}
+        .btn-ghost:hover{background:var(--bg2);border-color:var(--border3)}
+        .btn svg{width:15px;height:15px;flex-shrink:0}
 
-        /* ── Blobs matching the reference photo ── */
-        .blob1 {
-            position: absolute;
-            top: -20%; left: -10%;
-            width: 70vw; height: 70vw;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,80,10,0.65) 0%, transparent 65%);
-            animation: drift 20s ease-in-out infinite;
-            filter: blur(50px);
-        }
-        .blob2 {
-            position: absolute;
-            bottom: -15%; right: -5%;
-            width: 60vw; height: 60vw;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,170,0,0.70) 0%, transparent 65%);
-            animation: driftB 25s ease-in-out infinite;
-            filter: blur(55px);
-        }
-        .blob3 {
-            position: absolute;
-            top: 30%; left: 25%;
-            width: 55vw; height: 55vw;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,220,100,0.5) 0%, transparent 65%);
-            animation: drift 32s ease-in-out infinite reverse;
-            filter: blur(70px);
-        }
-        .blob4 {
-            position: absolute;
-            top: -5%; right: 10%;
-            width: 40vw; height: 40vw;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(200,180,255,0.25) 0%, transparent 65%);
-            animation: driftB 18s ease-in-out infinite 5s;
-            filter: blur(60px);
-        }
+        /* hero terminal */
+        .hero-term{max-width:640px;margin:0 auto;background:var(--bg1);border:1px solid var(--border2);border-radius:12px;overflow:hidden;text-align:left;box-shadow:0 24px 64px rgba(0,0,0,.35)}
+        html.light .hero-term{box-shadow:0 8px 32px rgba(0,0,0,.10)}
+        .term-bar{display:flex;align-items:center;gap:6px;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--bg2)}
+        .term-dot{width:10px;height:10px;border-radius:50%}
+        .term-dot.r{background:#ff5f57}.term-dot.y{background:#febc2e}.term-dot.g{background:#28c840}
+        .term-title{margin-left:auto;margin-right:auto;font-size:11.5px;font-family:var(--mono);color:var(--text4);letter-spacing:.02em}
+        .term-body{padding:18px 20px;font-family:var(--mono);font-size:12.5px;line-height:1.75}
+        .term-line{display:flex;gap:8px}
+        .prompt{color:var(--orange);flex-shrink:0;user-select:none}
+        .cmd{color:var(--text)}
+        .out{color:var(--text3);padding-left:16px}
+        .out.ok{color:var(--green)}
+        .out.hi{color:var(--gold)}
+        .term-cursor{display:inline-block;width:8px;height:14px;background:var(--orange);margin-left:2px;vertical-align:-2px;animation:blink 1.1s step-end infinite;border-radius:1px}
+        @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 
-        /* ── Animations ── */
-        @keyframes fadeIn  { from{opacity:0} to{opacity:1} }
-        @keyframes fadeUp  { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes logoReveal {
-            0%  { opacity:0; transform:scale(0.8) rotate(-5deg); }
-            65% { transform:scale(1.05) rotate(1.5deg); }
-            100%{ opacity:1; transform:scale(1) rotate(0deg); }
-        }
-        @keyframes pulse {
-            0%,100%{opacity:0.45; box-shadow:0 0 6px #ff880055;}
-            50%    {opacity:1;   box-shadow:0 0 10px #ff8800aa;}
-        }
-        @keyframes drift {
-            0%  {transform:translate(0,0) scale(1);}
-            33% {transform:translate(25px,-20px) scale(1.05);}
-            66% {transform:translate(-15px,18px) scale(0.97);}
-            100%{transform:translate(0,0) scale(1);}
-        }
-        @keyframes driftB {
-            0%  {transform:translate(0,0) scale(1);}
-            33% {transform:translate(-22px,22px) scale(1.03);}
-            66% {transform:translate(18px,-12px) scale(0.98);}
-            100%{transform:translate(0,0) scale(1);}
-        }
-        @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
-        @keyframes glowPulse {
-            0%,100%{ border-color:rgba(200,100,0,0.2); box-shadow:inset 0 0 20px rgba(220,120,0,0.05); }
-            50%    { border-color:rgba(220,120,0,0.45); box-shadow:inset 0 0 28px rgba(220,120,0,0.12); }
-        }
-        @keyframes flipNum {
-            from{ opacity:0; transform:translateY(10px); }
-            to  { opacity:1; transform:translateY(0); }
-        }
-        @keyframes shimmerLine {
-            0%  { background-position: -200% center; }
-            100%{ background-position:  200% center; }
-        }
+        /* ── STATS BAR ── */
+        .stats{border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg1)}
+        .stats-inner{max-width:1120px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:repeat(4,1fr)}
+        .stat{padding:24px 20px;position:relative;text-align:center}
+        .stat+.stat{border-left:1px solid var(--border)}
+        .stat-num{font-size:28px;font-weight:700;letter-spacing:-1px;color:var(--white);margin-bottom:4px}
+        .stat-num span{color:var(--orange)}
+        .stat-lbl{font-size:12.5px;color:var(--text3)}
 
-        /* ── Nav ── */
-        nav {
-            width: 100%;
-            max-width: 1200px;
-            padding: 32px 44px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            animation: fadeIn 0.9s ease both;
-            position: relative;
-            z-index: 10;
-        }
-        .nav-logo { display:flex; align-items:center; gap:12px; }
-        .nav-brand {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 22px;
-            letter-spacing: 0.14em;
-            background: linear-gradient(90deg, #4a1800, #aa4400);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .nav-status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-family: 'Space Mono', monospace;
-            font-size: 10px;
-            letter-spacing: 0.1em;
-            color: rgba(80,30,0,0.82);
-            border: 1px solid rgba(200,100,0,0.35);
-            padding: 7px 16px;
-            border-radius: 100px;
-            backdrop-filter: blur(12px);
-            background: rgba(255,140,20,0.12);
-        }
-        .status-dot {
-            width: 6px; height: 6px;
-            border-radius: 50%;
-            background: #ff6600;
-            animation: pulse 2.2s ease-in-out infinite;
-        }
+        /* ── SECTION COMMON ── */
+        .section{padding:88px 24px}
+        .section-inner{max-width:1120px;margin:0 auto}
+        .section-label{font-size:11.5px;font-family:var(--mono);color:var(--orange);letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;font-weight:500}
+        .section-h{font-size:clamp(26px,4vw,38px);font-weight:700;letter-spacing:-1px;color:var(--white);line-height:1.15;margin-bottom:14px}
+        .section-sub{font-size:15.5px;color:var(--text2);line-height:1.7;max-width:540px}
 
-        /* ── Hero ── */
-        .hero {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px 24px 10px;
-            text-align: center;
-            position: relative;
-            z-index: 10;
-        }
+        /* ── HOW IT WORKS ── */
+        .how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-top:44px}
+        .how-step{background:var(--bg);padding:32px 28px;position:relative;transition:background .15s}
+        .how-step:hover{background:var(--bg1)}
+        .how-num{font-size:11px;font-family:var(--mono);color:var(--orange);background:var(--orange-dim);border:1px solid rgba(244,96,12,.2);width:26px;height:26px;border-radius:6px;display:grid;place-items:center;margin-bottom:20px;font-weight:600}
+        .how-icon{font-size:24px;margin-bottom:14px;display:block}
+        .how-title{font-size:17px;font-weight:600;color:var(--white);margin-bottom:8px;letter-spacing:-.3px}
+        .how-desc{font-size:13.5px;color:var(--text2);line-height:1.65}
+        .how-code{margin-top:14px;background:var(--bg2);border:1px solid var(--border2);border-radius:6px;padding:10px 13px;font-family:var(--mono);font-size:12px;color:var(--text3)}
+        .how-code .kw{color:var(--orange)}
+        .how-code .st{color:var(--gold)}
+        .how-arrow{position:absolute;right:-18px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--border3);z-index:2;background:var(--bg);padding:4px}
 
-        .eyebrow {
-            font-family: 'Space Mono', monospace;
-            font-size: 10px;
-            letter-spacing: 0.28em;
-            color: rgba(70,25,0,0.82);
-            margin-bottom: 38px;
-            animation: fadeUp 0.7s 0.15s ease both;
-            padding-bottom: 8px;
-            border-bottom: 1px solid rgba(180,80,0,0.2);
-        }
+        /* ── FEATURES ── */
+        .feat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-top:44px}
+        .feat-card{background:var(--bg);padding:28px;transition:background .15s;position:relative;overflow:hidden}
+        .feat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--orange-dim),transparent);opacity:0;transition:opacity .2s}
+        .feat-card:hover{background:var(--card-hover)}
+        .feat-card:hover::before{opacity:1}
+        .feat-ic{width:38px;height:38px;border-radius:9px;display:grid;place-items:center;margin-bottom:16px;font-size:18px;flex-shrink:0}
+        .feat-ic.orange{background:var(--orange-dim);border:1px solid rgba(244,96,12,.18)}
+        .feat-ic.gold{background:var(--gold-dim);border:1px solid rgba(245,168,0,.18)}
+        .feat-ic.peri{background:var(--peri-dim);border:1px solid rgba(184,196,224,.18)}
+        .feat-ic.green{background:var(--green-dim);border:1px solid rgba(80,227,194,.18)}
+        .feat-title{font-size:15px;font-weight:600;color:var(--white);margin-bottom:7px;letter-spacing:-.2px}
+        .feat-desc{font-size:13px;color:var(--text2);line-height:1.65}
+        .feat-tag{display:inline-flex;margin-top:12px;font-size:11px;font-family:var(--mono);color:var(--text3);background:var(--bg2);border:1px solid var(--border2);padding:2px 8px;border-radius:4px}
 
-        .logo-wrap {
-            margin-bottom: 24px;
-            animation: logoReveal 1s 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
-        }
+        /* ── CODE SHOWCASE ── */
+        .showcase{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--border2);border:1px solid var(--border2);border-radius:12px;overflow:hidden;margin-top:40px}
+        .show-pane{background:var(--bg1)}
+        .show-head{padding:13px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+        .show-head-lbl{font-size:12px;font-family:var(--mono);color:var(--text3);display:flex;align-items:center;gap:6px}
+        .lang-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+        .ld-java{background:#f89820}
+        .ld-yaml{background:#cb171e}
+        .ld-term{background:#4eaa25}
+        .show-badge{margin-left:auto;font-size:10.5px;font-family:var(--mono);padding:2px 8px;border-radius:3px}
+        .show-badge.before{background:var(--orange-dim);color:var(--orange);border:1px solid rgba(244,96,12,.2)}
+        .show-badge.after{background:var(--green-dim);color:var(--green);border:1px solid rgba(80,227,194,.2)}
+        .show-body{padding:20px;font-family:var(--mono);font-size:12.5px;line-height:1.75;overflow-x:auto}
+        /* syntax */
+        .kw{color:#ff79c6}.st{color:#50fa7b}.cm{color:#555f6e;font-style:italic}.an{color:#8be9fd}.nm{color:#ffb86c}.fn{color:#bd93f9}.tp{color:#ffb86c}.yk{color:#8be9fd}.yv{color:#f1fa8c}.xt{color:#50fa7b}.xa{color:#ffb86c}
+        html.light .kw{color:#cf222e}html.light .st{color:#0a3069}html.light .cm{color:#8c949e;font-style:italic}html.light .an{color:#0550ae}html.light .nm{color:#953800}html.light .fn{color:#6639ba}html.light .tp{color:#953800}html.light .yk{color:#0550ae}html.light .yv{color:#0a3069}html.light .xt{color:#116329}html.light .xa{color:#953800}
 
-        /* Glassy icon container */
-        .logo-icon {
-            width: 90px;
-            height: 90px;
-            background: rgba(255,255,255,0.92);
-            border-radius: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow:
-                    0 24px 60px rgba(120,40,0,0.25),
-                    0 4px 12px rgba(120,40,0,0.15),
-                    inset 0 1px 1px rgba(255,255,255,0.9);
-        }
+        /* ── GENERATED SERVICES ── */
+        .svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:36px}
+        .svc-card{background:var(--bg1);border:1px solid var(--border2);border-radius:var(--r);padding:18px 16px;transition:border-color .15s,background .15s}
+        .svc-card:hover{border-color:var(--orange);background:var(--orange-dim)}
+        .svc-card.infra{border-style:dashed}
+        .svc-ic{font-size:20px;margin-bottom:10px;display:block}
+        .svc-name{font-family:var(--mono);font-size:12.5px;color:var(--white);margin-bottom:4px;font-weight:500}
+        .svc-port{font-family:var(--mono);font-size:11px;color:var(--orange);margin-bottom:6px}
+        .svc-desc{font-size:12px;color:var(--text3);line-height:1.5}
 
-        .title {
-            font-family: 'Bebas Neue', sans-serif;
-            line-height: 0.86;
-            margin-bottom: 24px;
-        }
-        .title-solid {
-            display: block;
-            font-size: clamp(90px, 17vw, 190px);
-            letter-spacing: -0.02em;
-            background: linear-gradient(180deg, #3a1000 0%, rgba(140,50,0,0.85) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: fadeUp 0.7s 0.45s ease both;
-        }
-        .title-outline {
-            display: block;
-            font-size: clamp(90px, 17vw, 190px);
-            letter-spacing: -0.02em;
-            color: transparent;
-            -webkit-text-stroke: 2px rgba(140,55,0,0.6);
-            animation: fadeUp 0.7s 0.55s ease both;
-        }
+        /* ── PRINCIPLES ── */
+        .prin-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-top:40px}
+        .prin{background:var(--bg);padding:24px 22px;display:flex;gap:14px;transition:background .15s}
+        .prin:hover{background:var(--bg1)}
+        .prin-bullet{width:7px;height:7px;border-radius:50%;background:var(--orange);flex-shrink:0;margin-top:7px}
+        .prin-title{font-size:14px;font-weight:600;color:var(--white);margin-bottom:5px}
+        .prin-desc{font-size:13px;color:var(--text2);line-height:1.6}
 
-        .subtitle {
-            font-family: 'DM Sans', sans-serif;
-            font-size: clamp(14px, 1.8vw, 17px);
-            font-weight: 300;
-            color: rgba(60,20,0,0.78);
-            line-height: 1.75;
-            max-width: 420px;
-            margin-bottom: 50px;
-            animation: fadeUp 0.7s 0.65s ease both;
-        }
+        /* ── COMPARISON TABLE ── */
+        .comp-wrap{margin-top:40px;border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+        table{width:100%;border-collapse:collapse;font-size:13.5px}
+        thead{border-bottom:1px solid var(--border2)}
+        th{padding:12px 18px;text-align:left;font-size:11.5px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--text3);background:var(--bg1)}
+        th.hi{background:var(--orange-dim);color:var(--orange)}
+        td{padding:12px 18px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:middle}
+        tr:last-child td{border-bottom:none}
+        tr:hover td{background:var(--bg1)}
+        td.chk{color:var(--green);font-size:15px;text-align:center}
+        td.cross{color:var(--text5);font-size:15px;text-align:center}
+        td.hi-col{background:var(--orange-dim);font-weight:500;color:var(--text)}
 
-        /* ── Countdown ── */
-        .countdown {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            margin-bottom: 50px;
-            animation: fadeUp 0.7s 0.78s ease both;
-        }
-        .cd-unit {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 7px;
-        }
-        .cd-value {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(42px, 6.5vw, 65px);
-            line-height: 1;
-            color: #2a0e00;
-            min-width: 82px;
-            text-align: center;
-            padding: 12px 16px;
-            border-radius: 14px;
-            border: 1px solid rgba(200,100,0,0.2);
-            background: rgba(255,140,0,0.12);
-            backdrop-filter: blur(16px);
-            animation: glowPulse 5s ease-in-out infinite;
-            transition: transform 0.25s ease;
-        }
-        .cd-label {
-            font-family: 'Space Mono', monospace;
-            font-size: 8.5px;
-            letter-spacing: 0.22em;
-            color: rgba(100,35,0,0.72);
-        }
-        .cd-sep {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(38px, 5.5vw, 58px);
-            color: rgba(160,65,0,0.55);
-            line-height: 1.25;
-            padding-top: 10px;
-        }
+        /* ── EVAL SECTION ── */
+        .eval-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-top:36px}
+        .eval-card{background:var(--bg);padding:24px 22px;transition:background .15s}
+        .eval-card:hover{background:var(--bg1)}
+        .eval-sys{font-size:11px;font-family:var(--mono);color:var(--text4);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px}
+        .eval-name{font-size:16px;font-weight:700;color:var(--white);margin-bottom:16px;letter-spacing:-.3px}
+        .eval-row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px solid var(--border);font-size:12.5px}
+        .eval-row:last-child{border-bottom:none}
+        .eval-k{color:var(--text3)}
+        .eval-v{font-family:var(--mono);color:var(--white);font-weight:500}
+        .eval-v.orange{color:var(--orange)}
+        .eval-v.gold{color:var(--gold)}
+        .eval-v.peri{color:var(--peri)}
 
-        /* ── Email capture ── */
-        .email-section {
-            width: 100%;
-            max-width: 500px;
-            animation: fadeUp 0.7s 0.9s ease both;
-        }
-        .email-form { display:flex; flex-direction:column; align-items:center; gap:10px; }
-        .input-wrap {
-            width: 100%;
-            display: flex;
-            border: 1px solid rgba(200,100,0,0.28);
-            border-radius: 14px;
-            overflow: hidden;
-            background: rgba(255,160,30,0.1);
-            backdrop-filter: blur(20px);
-            transition: border-color 0.25s, box-shadow 0.25s;
-        }
-        .input-wrap:focus-within {
-            border-color: rgba(220,120,0,0.55);
-            box-shadow: 0 0 0 3px rgba(220,120,0,0.12), 0 8px 40px rgba(180,80,0,0.15);
-        }
-        .email-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            outline: none;
-            padding: 15px 20px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 13.5px;
-            color: #2a0e00;
-            min-width: 0;
-        }
-        .email-input::placeholder { color: rgba(100,35,0,0.52); }
-        .submit-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 0 22px;
-            background: linear-gradient(135deg, #ff6600, #cc4400);
-            color: white;
-            border: none;
-            font-family: 'Space Mono', monospace;
-            font-size: 10.5px;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: filter 0.2s, transform 0.15s;
-            border-left: 1px solid rgba(255,255,255,0.1);
-        }
-        .submit-btn:hover { filter: brightness(1.15); transform: translateX(1px); }
-        .privacy-note {
-            font-family: 'DM Sans', sans-serif;
-            font-size: 11px;
-            color: rgba(100,35,0,0.62);
-            letter-spacing: 0.04em;
-        }
-        .success-msg {
-            display: none;
-            align-items: center;
-            gap: 12px;
-            padding: 18px 28px;
-            border: 1px solid rgba(200,100,0,0.25);
-            border-radius: 14px;
-            background: rgba(255,140,0,0.12);
-            backdrop-filter: blur(16px);
-            font-family: 'DM Sans', sans-serif;
-            font-size: 14px;
-            color: rgba(80,30,0,0.85);
-        }
+        /* ── CTA ── */
+        .cta-section{padding:100px 24px;text-align:center;position:relative;overflow:hidden}
+        .cta-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 50%,var(--orange-dim) 0%,transparent 70%);pointer-events:none}
+        .cta-inner{max-width:600px;margin:0 auto;position:relative;z-index:1}
+        .cta-h{font-size:clamp(28px,5vw,44px);font-weight:800;letter-spacing:-1.5px;color:var(--white);margin-bottom:16px;line-height:1.1}
+        .cta-sub{font-size:16px;color:var(--text2);margin-bottom:36px;line-height:1.65}
+        .cta-btns{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+        .cta-note{margin-top:20px;font-size:12px;color:var(--text4);font-family:var(--mono)}
 
-        /* ── Feature pills ── */
-        .features {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 36px 24px 0;
-            animation: fadeUp 0.7s 1.05s ease both;
-        }
-        .feature-pill {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border: 1px solid rgba(180,80,0,0.2);
-            border-radius: 100px;
-            padding: 8px 18px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 12px;
-            font-weight: 400;
-            color: rgba(75,25,0,0.82);
-            background: rgba(255,140,0,0.08);
-            backdrop-filter: blur(8px);
-            letter-spacing: 0.02em;
-            transition: background 0.2s, border-color 0.2s, color 0.2s;
-        }
-        .feature-pill:hover {
-            background: rgba(255,140,0,0.18);
-            border-color: rgba(200,100,0,0.4);
-            color: #2a0e00;
-        }
-        .feature-dot {
-            width: 4px; height: 4px;
-            border-radius: 50%;
-            background: #ff6600;
-            opacity: 0.8;
-        }
+        /* ── FOOTER ── */
+        footer{border-top:1px solid var(--border);padding:40px 24px}
+        .foot-inner{max-width:1120px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+        .foot-logo{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;color:var(--text2)}
+        .foot-links{display:flex;gap:20px}
+        .foot-link{font-size:13px;color:var(--text3);transition:color .12s}
+        .foot-link:hover{color:var(--text)}
+        .foot-copy{font-size:12px;color:var(--text4)}
 
-        /* ── Shimmer divider ── */
-        .shimmer-line {
-            width: 180px;
-            height: 1px;
-            margin: 40px auto 0;
-            background: linear-gradient(90deg, transparent, rgba(200,100,0,0.5), transparent);
-            background-size: 200% 100%;
-            animation: shimmerLine 3s linear infinite;
-        }
+        /* ── DIVIDER ── */
+        .divider{border:none;border-top:1px solid var(--border);margin:0}
 
-        /* ── Ticker ── */
-        .ticker {
-            width: 100%;
-            overflow: hidden;
-            border-top: 1px solid rgba(180,80,0,0.12);
-            border-bottom: 1px solid rgba(180,80,0,0.12);
-            padding: 11px 0 25px;
-            margin-top: 38px;
-            background: rgba(255,140,0,0.04);
-        }
-        .ticker-track {
-            display: flex;
-            width: max-content;
-            animation: ticker 24s linear infinite;
-            will-change: transform;
-        }
-        .ticker-item {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 12px;
-            letter-spacing: 0.22em;
-            color: rgba(100,35,0,0.65);
-            padding: 0 6px;
-            white-space: nowrap;
-        }
-        .ticker-sep { margin: 0 14px; color: rgba(140,55,0,0.5); font-size: 10px; }
+        /* ── CALLOUT ── */
+        .callout{display:flex;gap:10px;padding:14px 16px;border-radius:var(--r);margin:28px 0;font-size:13.5px;line-height:1.6;border:1px solid}
+        .callout.tip{background:var(--orange-dim);border-color:rgba(244,96,12,.2);color:var(--orange)}
+        .callout.info{background:var(--blue-dim);border-color:rgba(50,145,255,.2);color:var(--blue)}
+        html.light .callout.info{color:#0550ae}
 
-        /* ── Footer ── */
-        footer {
-            width: 100%;
-            max-width: 1200px;
-            padding: 20px 44px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 11.5px;
-            color: rgba(80,30,0,0.62);
-            letter-spacing: 0.03em;
-            position: relative;
-            z-index: 10;
-        }
-        .footer-links { display:flex; gap:24px; }
-        .footer-links a { color:rgba(80,30,0,0.62); text-decoration:none; transition:color 0.2s; }
-        .footer-links a:hover { color:rgba(60,10,0,0.92); }
+        /* ── MOBILE HAMBURGER / NAV ── */
+        .ham{display:none;width:36px;height:36px;border-radius:7px;border:1px solid var(--border2);background:var(--bg1);cursor:pointer;align-items:center;justify-content:center;padding:0;transition:all .15s}
+        .ham:hover{background:var(--bg2);border-color:var(--border3)}
+        .ham svg{width:16px;height:16px;color:var(--text);display:block}
+        .mob-menu{display:none;position:fixed;inset:0;background:var(--nav-bg);backdrop-filter:blur(20px);z-index:99;flex-direction:column;padding:70px 24px 24px;gap:4px;overflow-y:auto}
+        .mob-menu.open{display:flex}
+        .mob-link{font-size:16px;color:var(--text2);padding:12px 0;border-bottom:1px solid var(--border);transition:color .12s;cursor:pointer}
+        .mob-link:hover{color:var(--text)}
+        .mob-link:last-child{border-bottom:none}
 
+        /* ── RESPONSIVE ── */
+        @media(max-width:900px){
+            .how-grid{grid-template-columns:1fr}
+            .how-arrow{display:none}
+            .showcase{grid-template-columns:1fr}
+            .eval-grid{grid-template-columns:1fr}
+            .prin-grid{grid-template-columns:1fr}
+            .stats-inner{grid-template-columns:repeat(2,1fr)}
+            .stat:nth-child(3){border-left:none;border-top:1px solid var(--border)}
+            .stat:nth-child(4){border-top:1px solid var(--border)}
+            .nav-links{display:none}
+            .ham{display:inline-flex}
+            .nav-badge{display:none}
+        }
         @media(max-width:600px){
-            nav { padding:20px; }
-            footer { padding:16px 20px; flex-direction:column; gap:10px; }
-            .cd-value { min-width:64px; padding:9px 10px; }
+            .hero{padding:110px 20px 72px}
+            .hero-ctas{flex-direction:column;align-items:stretch}
+            .hero-ctas .btn{justify-content:center}
+            .stats-inner{grid-template-columns:1fr 1fr}
+            .svc-grid{grid-template-columns:1fr 1fr}
+            .section{padding:60px 20px}
+            .feat-grid{grid-template-columns:1fr}
+            table{font-size:12px}
+            th,td{padding:9px 12px}
+            .cta-btns{flex-direction:column;align-items:stretch}
+            .cta-btns .btn{justify-content:center}
+        }
+        @media(max-width:380px){
+            .svc-grid{grid-template-columns:1fr}
+            .stats-inner{grid-template-columns:1fr}
+            .stat+.stat{border-left:none;border-top:1px solid var(--border)}
         }
     </style>
 </head>
 <body>
 
-<div class="bg">
-    <div class="blob1"></div>
-    <div class="blob2"></div>
-    <div class="blob3"></div>
-    <div class="blob4"></div>
-</div>
-
-<nav>
-    <div class="nav-logo">
-        <img src="./assets/images/icon.png" alt="logo icon" style="width:24px;"/>
-    </div>
-    <div class="nav-status">
-        <span class="status-dot"></span>
-        <span>IN DEVELOPMENT</span>
+<!-- ── NAVBAR ── -->
+<nav class="nav">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo">
+            <div class="logo-mark">
+                <svg width="18" height="18" viewBox="0 0 149 165" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18.2837 40L77.5674 70.7474L59.2837 106L0 75.2526L18.2837 40Z" fill="currentColor"/><path d="M18.2837 0H148.284V40H18.2837V0Z" fill="currentColor"/><path d="M59.2837 66H148.284V106H59.2837V66Z" fill="currentColor"/><path d="M59.2837 106V165H18.2837V106H59.2837Z" fill="currentColor"/></svg>
+            </div>
+            FractalX
+        </a>
+        <div class="nav-links">
+            <a href="#features" class="nav-link">Features</a>
+            <a href="#how-it-works" class="nav-link">How it works</a>
+            <a href="#generated" class="nav-link">Generated output</a>
+            <a href="#evaluation" class="nav-link">Evaluation</a>
+            <a class="nav-link" onclick="openDocs()">Docs</a>
+        </div>
+        <div class="nav-right">
+            <span class="nav-badge">v0.2.5-SNAPSHOT</span>
+            <a href="https://github.com/Project-FractalX/FractalX" class="nav-btn ghost" style="display:inline-flex;align-items:center;gap:6px">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                GitHub
+            </a>
+            <button class="tt" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">
+                <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </button>
+            <button class="ham" onclick="toggleMob()" aria-label="Menu">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            </button>
+        </div>
     </div>
 </nav>
 
+<!-- mobile menu -->
+<div class="mob-menu" id="mob-menu">
+    <a href="#features" class="mob-link" onclick="toggleMob()">Features</a>
+    <a href="#how-it-works" class="mob-link" onclick="toggleMob()">How it works</a>
+    <a href="#generated" class="mob-link" onclick="toggleMob()">Generated output</a>
+    <a href="#evaluation" class="mob-link" onclick="toggleMob()">Evaluation</a>
+    <a class="mob-link" onclick="openDocs();toggleMob()">Documentation</a>
+    <a href="https://github.com/Project-FractalX/FractalX" class="mob-link">GitHub</a>
+</div>
+
+<!-- ── HERO ── -->
 <section class="hero">
-    <div class="eyebrow" style="text-transform: uppercase">The Way the World Builds Distributed Software</div>
-    <img src="./assets/images/logo.png" alt="logo" class="logo"/>
-
-    <p class="subtitle" style="text-transform: uppercase">
-        breaks the world in
-    </p>
-
-    <!-- Countdown -->
-    <div class="countdown" id="countdown">
-        <div class="cd-unit">
-            <div class="cd-value" id="days">00</div>
-            <div class="cd-label">DAYS</div>
+    <div class="hero-inner">
+        <div class="hero-tag">
+            <span class="dot"></span>
+            Static decomposition &mdash; build-time, not runtime
         </div>
-        <div class="cd-sep">:</div>
-        <div class="cd-unit">
-            <div class="cd-value" id="hours">00</div>
-            <div class="cd-label">HOURS</div>
+        <h1 class="hero-h1">
+            Monolith to<br>
+            Microservices.<br>
+            <span class="hl">One Command.</span>
+        </h1>
+        <p class="hero-sub">
+            FractalX reads your Spring Boot source tree, finds module boundaries from annotations,
+            and generates a fully operational microservice platform &mdash; with gRPC communication,
+            observability, service discovery, and Docker deployment included.
+        </p>
+        <div class="hero-ctas">
+            <a href="#how-it-works" class="btn btn-primary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Get started
+            </a>
+            <a class="btn btn-ghost" onclick="openDocs()">
+                Read the docs
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+            <a href="https://github.com/Project-FractalX/FractalX" class="btn btn-ghost">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                Star on GitHub
+            </a>
         </div>
-        <div class="cd-sep">:</div>
-        <div class="cd-unit">
-            <div class="cd-value" id="minutes">00</div>
-            <div class="cd-label">MINUTES</div>
-        </div>
-        <div class="cd-sep">:</div>
-        <div class="cd-unit">
-            <div class="cd-value" id="seconds">00</div>
-            <div class="cd-label">SECONDS</div>
-        </div>
-    </div>
-
-    <!-- Email -->
-    <div class="email-section">
-        <div class="success-msg" id="successMsg">
-            <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
-                <circle cx="10" cy="10" r="9" stroke="rgba(180,80,0,0.8)" stroke-width="1.5"/>
-                <path d="M6 10L9 13L14 7" stroke="rgba(120,50,0,0.9)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <span>You're on the list — we'll be in touch.</span>
+        <!-- terminal -->
+        <div class="hero-term">
+            <div class="term-bar">
+                <div class="term-dot r"></div>
+                <div class="term-dot y"></div>
+                <div class="term-dot g"></div>
+                <div class="term-title">fractalx &mdash; zsh</div>
+            </div>
+            <div class="term-body">
+                <div class="term-line"><span class="prompt">$</span><span class="cmd"> mvn fractalx:decompose</span></div>
+                <div class="out hi">[INFO] FractalX 0.2.5 &mdash; starting decomposition</div>
+                <div class="out">Parsing 52 source files &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Phase 1 &#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608; 100%</div>
+                <div class="out">Analysing dependencies &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Phase 2 &#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608; 100%</div>
+                <div class="out">Generating 9 microservices &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Generate &#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608; 100%</div>
+                <div class="out ok">[INFO] BUILD SUCCESS &mdash; 9 services &mdash; 1.48s</div>
+                <div class="term-line" style="margin-top:6px"><span class="prompt">$</span><span class="cmd"> ./fractalx-output/start-all.sh</span></div>
+                <div class="out">Starting fractalx-registry &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:8761 &nbsp;&#10003;</div>
+                <div class="out">Starting domain services &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:8081&ndash;8089 &#10003;</div>
+                <div class="out ok">All services healthy &mdash; Admin at http://localhost:9090<span class="term-cursor"></span></div>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- Features -->
-<div class="features">
-    <div class="feature-pill"><span class="feature-dot"></span>FractalX</div>
-    <div class="feature-pill"><span class="feature-dot"></span>NetScope</div>
-    <div class="feature-pill"><span class="feature-dot"></span>LoggerX</div>
-    <div class="feature-pill"><span class="feature-dot"></span>SagaX</div>
-    <div class="feature-pill"><span class="feature-dot"></span>OratorX</div>
-</div>
-
-<div class="shimmer-line"></div>
-
-<!-- Ticker -->
-<div class="ticker">
-    <div class="ticker-track">
-        <span class="ticker-item">COMING SOON<span class="ticker-sep">◆</span></span>
-        <span class="ticker-item">Q1 2026<span class="ticker-sep">◆</span></span>
-        <span class="ticker-item">FRACTALX<span class="ticker-sep">◆</span></span>
-        <span class="ticker-item">JAVA FRAMEWORK<span class="ticker-sep">◆</span></span>
-        <span class="ticker-item">MICROSERVICES<span class="ticker-sep">◆</span></span>
+<!-- ── STATS ── -->
+<div class="stats">
+    <div class="stats-inner">
+        <div class="stat">
+            <div class="stat-num"><span>30</span>+</div>
+            <div class="stat-lbl">Code generators</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">&lt;<span>2</span>s</div>
+            <div class="stat-lbl">Decomposition time</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num"><span>554</span></div>
+            <div class="stat-lbl">Automated tests</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num"><span>0</span></div>
+            <div class="stat-lbl">Runtime agents</div>
+        </div>
     </div>
 </div>
 
+<!-- ── HOW IT WORKS ── -->
+<section class="section" id="how-it-works">
+    <div class="section-inner">
+        <div class="section-label">How it works</div>
+        <h2 class="section-h">Three steps from monolith to platform</h2>
+        <p class="section-sub">FractalX is a build-time tool. It reads source files, never runs them. No agent, no bytecode manipulation, no framework lock-in.</p>
+        <div class="how-grid">
+            <div class="how-step">
+                <div class="how-num">01</div>
+                <span class="how-icon">&#127381;</span>
+                <div class="how-title">Annotate boundaries</div>
+                <div class="how-desc">Add one <code style="font-family:var(--mono);font-size:11.5px;background:var(--bg2);padding:1px 5px;border-radius:3px;color:var(--text)">@DecomposableModule</code> per bounded context. Declare cross-module dependencies as fields &mdash; or let FractalX detect them from imports automatically.</div>
+                <div class="how-code">
+                    <span class="an">@DecomposableModule</span>(<br>
+                    &nbsp;&nbsp;serviceName = <span class="st">"order-service"</span>,<br>
+                    &nbsp;&nbsp;port = <span class="nm">8081</span><br>
+                    )<br>
+                    <span class="kw">public class</span> <span class="tp">OrderModule</span> {<br>
+                    &nbsp;&nbsp;<span class="kw">private</span> <span class="tp">PaymentService</span> paymentService;<br>
+                    }
+                </div>
+            </div>
+            <div class="how-step">
+                <div class="how-num">02</div>
+                <span class="how-icon">&#9889;</span>
+                <div class="how-title">Run decomposition</div>
+                <div class="how-desc">FractalX performs two-phase AST analysis: parse all source files into an in-memory AST, then map each module to its package prefix and extract cross-module call graphs.</div>
+                <div class="how-code" style="background:var(--bg2)">
+                    <span style="color:var(--text3)"># One command does everything</span><br>
+                    mvn fractalx:decompose<br><br>
+                    <span style="color:var(--text3)"># Or use the interactive TUI</span><br>
+                    mvn fractalx:menu
+                </div>
+            </div>
+            <div class="how-step">
+                <div class="how-num">03</div>
+                <span class="how-icon">&#128640;</span>
+                <div class="how-title">Deploy</div>
+                <div class="how-desc">A complete <code style="font-family:var(--mono);font-size:11.5px;background:var(--bg2);padding:1px 5px;border-radius:3px;color:var(--text)">docker-compose.yml</code> is generated alongside each service. Start everything with one command &mdash; services, gateway, registry, admin, and Jaeger all included.</div>
+                <div class="how-code">
+                    <span style="color:var(--text3)"># Docker Compose</span><br>
+                    docker compose up --build<br><br>
+                    <span style="color:var(--text3)"># Or locally</span><br>
+                    ./fractalx-output/start-all.sh
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- ── CODE SHOWCASE ── -->
+<section class="section" id="code-showcase">
+    <div class="section-inner">
+        <div class="section-label">Annotation minimal</div>
+        <h2 class="section-h">Everything from three annotations</h2>
+        <p class="section-sub">Your domain code stays untouched. FractalX generates all inter-service wiring, resilience, and observability code alongside your business logic.</p>
+        <div class="showcase">
+            <div class="show-pane">
+                <div class="show-head">
+                    <div class="show-head-lbl"><span class="lang-dot ld-java"></span>Your monolith &mdash; before</div>
+                    <span class="show-badge before">input</span>
+                </div>
+                <div class="show-body"><pre><code><span class="cm">// One annotation per module. That is it.</span>
+<span class="an">@DecomposableModule</span>(
+  serviceName = <span class="st">"order-service"</span>,
+  port = <span class="nm">8081</span>,
+  ownedSchemas = {<span class="st">"orders"</span>}
+)
+<span class="kw">public class</span> <span class="tp">OrderModule</span> {
+  <span class="kw">private</span> <span class="tp">PaymentService</span> paymentService;
+}
+
+<span class="cm">// Saga orchestration from one annotation</span>
+<span class="an">@DistributedSaga</span>(
+  sagaId = <span class="st">"checkout"</span>,
+  compensation = <span class="st">"cancelCheckout"</span>
+)
+<span class="kw">public void</span> <span class="fn">processCheckout</span>(<span class="tp">Long</span> orderId) {
+  paymentService.charge(orderId);
+  inventoryService.reserve(orderId);
+}
+
+<span class="cm">// Mark methods explicitly if needed</span>
+<span class="an">@ServiceBoundary</span>
+<span class="kw">public boolean</span> <span class="fn">isConfirmed</span>(<span class="tp">Long</span> id) {
+  <span class="kw">return</span> repo.existsById(id);
+}</code></pre></div>
+            </div>
+            <div class="show-pane" style="border-left:1px solid var(--border2)">
+                <div class="show-head">
+                    <div class="show-head-lbl"><span class="lang-dot ld-term"></span>Generated &mdash; after decompose</div>
+                    <span class="show-badge after">output</span>
+                </div>
+                <div class="show-body"><pre><code><span class="cm">// order-service/PaymentServiceClient.java</span>
+<span class="an">@NetScopeClient</span>(
+  server = <span class="st">"payment-service"</span>,
+  beanName = <span class="st">"paymentService"</span>
+)
+<span class="kw">public interface</span> <span class="tp">PaymentServiceClient</span> {
+  <span class="kw">boolean</span> <span class="fn">charge</span>(<span class="tp">Long</span> orderId);
+}
+
+<span class="cm">// order-service/OtelConfig.java</span>
+<span class="kw">public class</span> <span class="tp">OtelConfig</span> {
+  <span class="cm">// OTLP/gRPC -&gt; Jaeger, W3C traceparent</span>
+  <span class="cm">// BatchSpanProcessor, auto service.name</span>
+}
+
+<span class="cm">// fractalx-saga-orchestrator/</span>
+<span class="cm">// CheckoutSagaService.java</span>
+<span class="cm">// SagaInstance.java (JPA entity)</span>
+<span class="cm">// POST /saga/checkout/start</span>
+<span class="cm">// GET  /saga/status/{correlationId}</span>
+
+<span class="cm">// payment-service/OrderService.java</span>
+<span class="an">@NetworkPublic</span> <span class="cm">// added automatically</span>
+<span class="kw">public boolean</span> <span class="fn">isConfirmed</span>(<span class="tp">Long</span> id) {
+  <span class="kw">return</span> repo.existsById(id);
+}</code></pre></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- ── FEATURES ── -->
+<section class="section" id="features">
+    <div class="section-inner">
+        <div class="section-label">Capabilities</div>
+        <h2 class="section-h">Everything a production platform needs</h2>
+        <p class="section-sub">Every non-functional requirement is generated automatically. No boilerplate to write, no configuration to copy-paste.</p>
+        <div class="feat-grid">
+            <div class="feat-card">
+                <div class="feat-ic orange">&#128279;</div>
+                <div class="feat-title">NetScope &mdash; gRPC inter-service</div>
+                <div class="feat-desc">Auto-generated <code style="font-family:var(--mono);font-size:11px;background:var(--bg2);padding:1px 4px;border-radius:3px;color:var(--text)">@NetScopeClient</code> interfaces replace Feign. Strongly typed, resilience-wrapped, with dynamic host resolution from the registry. gRPC port = HTTP + 10,000.</div>
+                <span class="feat-tag">grpc &middot; type-safe &middot; zero-config</span>
+            </div>
+            <div class="feat-card">
+                <div class="feat-ic gold">&#128301;</div>
+                <div class="feat-title">OpenTelemetry + Jaeger tracing</div>
+                <div class="feat-desc">OtelConfig.java generated per service. OTLP/gRPC export to Jaeger. W3C traceparent propagates through HTTP and gRPC calls. X-Correlation-Id ties logs to traces end-to-end.</div>
+                <span class="feat-tag">otel &middot; jaeger &middot; w3c traceparent</span>
+            </div>
+            <div class="feat-card">
+                <div class="feat-ic peri">&#128737;</div>
+                <div class="feat-title">Resilience4j per dependency</div>
+                <div class="feat-desc">CircuitBreaker, Retry, and TimeLimiter configured per cross-module dependency. 50% failure threshold, 3 retries with exponential backoff, 2s call timeout &mdash; all configurable.</div>
+                <span class="feat-tag">circuit breaker &middot; retry &middot; timeout</span>
+            </div>
+            <div class="feat-card">
+                <div class="feat-ic green">&#127968;</div>
+                <div class="feat-title">Service registry &amp; gateway</div>
+                <div class="feat-desc">Lightweight fractalx-registry (no Eureka dependency). Spring Cloud Gateway with dynamic routing, rate limiting (token-bucket, no Redis), CORS, JWT/OAuth2/API-key auth &mdash; all disabled by default.</div>
+                <span class="feat-tag">registry &middot; gateway &middot; rate-limit</span>
+            </div>
+            <div class="feat-card">
+                <div class="feat-ic orange">&#128202;</div>
+                <div class="feat-title">Admin dashboard &mdash; 14 sections</div>
+                <div class="feat-desc">Full-stack ops dashboard generated at port 9090. Topology graph, API Explorer, gRPC browser, alert rules (SSE + Webhook + Slack + Email), incident tracker, live config diff and override.</div>
+                <span class="feat-tag">dashboard &middot; alerts &middot; incidents</span>
+            </div>
+            <div class="feat-card">
+                <div class="feat-ic gold">&#128451;</div>
+                <div class="feat-title">Data isolation &amp; sagas</div>
+                <div class="feat-desc">Per-service datasource, scoped @EntityScan, Flyway scaffold, transactional outbox, and ReferenceValidator replacing cross-service FKs. @DistributedSaga generates a full orchestrator service.</div>
+                <span class="feat-tag">flyway &middot; outbox &middot; saga</span>
+            </div>
+            <div class="feat-card">
+                <div class="feat-ic peri">&#128679;</div>
+                <div class="feat-title">Docker-ready from day one</div>
+                <div class="feat-desc">Multi-stage Dockerfile per service. docker-compose.yml for the entire platform including Jaeger. Three Spring profiles: base / dev / docker. All env vars pre-wired for container DNS.</div>
+                <span class="feat-tag">docker &middot; compose &middot; multi-stage</span>
+            </div>
+            <div class="feat-card">
+                <div class="feat-ic green">&#9989;</div>
+                <div class="feat-title">Static verification</div>
+                <div class="feat-desc">6-level verifier: structural checks, NetScope compatibility, port conflicts, SQL schema validity, circular dependency detection, secret scanning, and optional compile + Spring context smoke tests.</div>
+                <span class="feat-tag">verify &middot; analysis &middot;6 levels</span>
+            </div>
+            <div class="feat-card">
+                <div class="feat-ic orange">&#128200;</div>
+                <div class="feat-title">Health metrics &amp; Prometheus</div>
+                <div class="feat-desc">ServiceHealthConfig.java per service: TCP HealthIndicator per gRPC dependency, Micrometer gauge fractalx.service.dependency.up. All services expose /actuator/prometheus for scraping.</div>
+                <span class="feat-tag">micrometer &middot; prometheus &middot; health</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- ── GENERATED SERVICES ── -->
+<section class="section" id="generated">
+    <div class="section-inner">
+        <div class="section-label">Generated output</div>
+        <h2 class="section-h">A full platform, not just source files</h2>
+        <p class="section-sub">For a monolith with N annotated modules, FractalX generates N independent Spring Boot services plus four shared infrastructure services.</p>
+        <div class="svc-grid">
+            <div class="svc-card">
+                <span class="svc-ic">&#128230;</span>
+                <div class="svc-name">your-service-1</div>
+                <div class="svc-port">:8081 &nbsp;gRPC :18081</div>
+                <div class="svc-desc">One per @DecomposableModule. Copied + transformed source, NetScope client, OtelConfig, Resilience4j config</div>
+            </div>
+            <div class="svc-card">
+                <span class="svc-ic">&#128230;</span>
+                <div class="svc-name">your-service-2</div>
+                <div class="svc-port">:8082 &nbsp;gRPC :18082</div>
+                <div class="svc-desc">Own datasource, Flyway migration scaffold, outbox publisher, ReferenceValidator</div>
+            </div>
+            <div class="svc-card">
+                <span class="svc-ic">&#127981;</span>
+                <div class="svc-name">fractalx-registry</div>
+                <div class="svc-port">:8761</div>
+                <div class="svc-desc">Lightweight REST service registry. Self-registration, heartbeat, eviction. Starts first.</div>
+            </div>
+            <div class="svc-card">
+                <span class="svc-ic">&#127760;</span>
+                <div class="svc-name">fractalx-gateway</div>
+                <div class="svc-port">:9999</div>
+                <div class="svc-desc">Spring Cloud Gateway. Dynamic routing, rate limiting, circuit breaker, CORS, tracing filters</div>
+            </div>
+            <div class="svc-card">
+                <span class="svc-ic">&#128196;</span>
+                <div class="svc-name">logger-service</div>
+                <div class="svc-port">:9099</div>
+                <div class="svc-desc">Centralized structured log ingestion. Paginated search by correlationId, service, level</div>
+            </div>
+            <div class="svc-card">
+                <span class="svc-ic">&#128736;</span>
+                <div class="svc-name">admin-service</div>
+                <div class="svc-port">:9090</div>
+                <div class="svc-desc">14-section ops dashboard. Topology, alerts (4 channels), traces, API explorer, incident tracker</div>
+            </div>
+            <div class="svc-card svc-ic infra">
+                <span class="svc-ic">&#127881;</span>
+                <div class="svc-name">saga-orchestrator</div>
+                <div class="svc-port">:8099 &nbsp;(conditional)</div>
+                <div class="svc-desc">Generated only when @DistributedSaga is detected. Forward + compensation steps, SagaInstance JPA</div>
+            </div>
+            <div class="svc-card svc-ic infra">
+                <span class="svc-ic">&#128203;</span>
+                <div class="svc-name">docker-compose.yml</div>
+                <div class="svc-port">all services + Jaeger</div>
+                <div class="svc-desc">Complete multi-container setup. OTEL env vars pre-wired. Service DNS names. start-all.sh included</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- ── COMPARISON ── -->
+<section class="section" id="comparison">
+    <div class="section-inner">
+        <div class="section-label">Comparison</div>
+        <h2 class="section-h">Why not just do it manually?</h2>
+        <p class="section-sub">A manual migration involves weeks of repetitive scaffolding. FractalX generates it all correctly and consistently in under two seconds.</p>
+        <div class="comp-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>Concern</th>
+                    <th>Manual migration</th>
+                    <th class="hi">With FractalX</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Service scaffolding</td>
+                    <td>Days per service &mdash; pom.xml, main class, config profiles</td>
+                    <td class="hi-col">Generated in milliseconds per service</td>
+                </tr>
+                <tr>
+                    <td>Inter-service communication</td>
+                    <td>Write Feign clients or gRPC stubs manually</td>
+                    <td class="hi-col">@NetScopeClient interfaces auto-generated</td>
+                </tr>
+                <tr>
+                    <td>Distributed tracing</td>
+                    <td>Add OTel dependency + configure each service</td>
+                    <td class="hi-col">OtelConfig.java generated per service</td>
+                </tr>
+                <tr>
+                    <td>Circuit breaking & retry</td>
+                    <td>Configure Resilience4j per service per dependency</td>
+                    <td class="hi-col">Auto-generated per cross-module call</td>
+                </tr>
+                <tr>
+                    <td>Service discovery</td>
+                    <td>Set up Eureka or Consul, configure all clients</td>
+                    <td class="hi-col">fractalx-registry generated + all registration code</td>
+                </tr>
+                <tr>
+                    <td>Database isolation</td>
+                    <td>Split schemas, rewire JPA, handle FK integrity</td>
+                    <td class="hi-col">DataIsolationGenerator + ReferenceValidator</td>
+                </tr>
+                <tr>
+                    <td>Saga orchestration</td>
+                    <td>Design and build orchestrator service from scratch</td>
+                    <td class="hi-col">Full service from @DistributedSaga annotation</td>
+                </tr>
+                <tr>
+                    <td>Container deployment</td>
+                    <td>Write Dockerfiles, docker-compose, env vars</td>
+                    <td class="hi-col">Multi-stage Dockerfiles + compose generated</td>
+                </tr>
+                <tr>
+                    <td>Admin &amp; observability</td>
+                    <td>Build dashboards, alert rules, topology views</td>
+                    <td class="hi-col">14-section dashboard auto-generated</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- ── DESIGN PRINCIPLES ── -->
+<section class="section" id="principles">
+    <div class="section-inner">
+        <div class="section-label">Design</div>
+        <h2 class="section-h">Principles that guide every decision</h2>
+        <p class="section-sub">FractalX is opinionated where it saves you time and stays out of the way everywhere else.</p>
+        <div class="prin-grid">
+            <div class="prin">
+                <div class="prin-bullet"></div>
+                <div>
+                    <div class="prin-title">Annotation-minimal</div>
+                    <div class="prin-desc">One <code style="font-family:var(--mono);font-size:11px;background:var(--bg2);padding:1px 4px;border-radius:3px;color:var(--text)">@DecomposableModule</code> per module is the entire developer contract. Cross-module dependencies are detected automatically from imports and field types.</div>
+                </div>
+            </div>
+            <div class="prin">
+                <div class="prin-bullet" style="background:var(--gold)"></div>
+                <div>
+                    <div class="prin-title">Zero-intrusion</div>
+                    <div class="prin-desc">FractalX never modifies your monolith source tree. It reads source files and writes all generated code to a separate output directory. Your original codebase is never touched.</div>
+                </div>
+            </div>
+            <div class="prin">
+                <div class="prin-bullet" style="background:var(--peri)"></div>
+                <div>
+                    <div class="prin-title">Safe-by-default</div>
+                    <div class="prin-desc">When FractalX cannot determine whether a class belongs to a module, it copies it to every service that imports it. Unknown code is never silently dropped.</div>
+                </div>
+            </div>
+            <div class="prin">
+                <div class="prin-bullet" style="background:var(--green)"></div>
+                <div>
+                    <div class="prin-title">Incremental</div>
+                    <div class="prin-desc">Re-running <code style="font-family:var(--mono);font-size:11px;background:var(--bg2);padding:1px 4px;border-radius:3px;color:var(--text)">mvn fractalx:decompose</code> replaces the output directory cleanly. Iterate on module boundaries without side effects.</div>
+                </div>
+            </div>
+            <div class="prin">
+                <div class="prin-bullet"></div>
+                <div>
+                    <div class="prin-title">Observable from day one</div>
+                    <div class="prin-desc">Every generated service ships with distributed tracing, health metrics, Prometheus endpoint, correlation ID propagation, and log shipping &mdash; no developer action required.</div>
+                </div>
+            </div>
+            <div class="prin">
+                <div class="prin-bullet" style="background:var(--gold)"></div>
+                <div>
+                    <div class="prin-title">Extensible by design</div>
+                    <div class="prin-desc">Implement the <code style="font-family:var(--mono);font-size:11px;background:var(--bg2);padding:1px 4px;border-radius:3px;color:var(--text)">ServiceFileGenerator</code> interface and register it in the pipeline. Each step receives a full <code style="font-family:var(--mono);font-size:11px;background:var(--bg2);padding:1px 4px;border-radius:3px;color:var(--text)">GenerationContext</code> with no coupling to existing steps.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- ── EVALUATION ── -->
+<section class="section" id="evaluation">
+    <div class="section-inner">
+        <div class="section-label">Evaluation</div>
+        <h2 class="section-h">Validated across three real POC systems</h2>
+        <p class="section-sub">FractalX was evaluated against three purpose-built Spring Boot systems ranging from 4 to 9 modules, demonstrating consistent decomposition correctness and sub-second generation across all scales.</p>
+        <div class="eval-grid">
+            <div class="eval-card">
+                <div class="eval-sys">Small system</div>
+                <div class="eval-name">E-Commerce</div>
+                <div class="eval-row"><span class="eval-k">Modules</span><span class="eval-v orange">4</span></div>
+                <div class="eval-row"><span class="eval-k">Source files</span><span class="eval-v">22</span></div>
+                <div class="eval-row"><span class="eval-k">Cross-module deps</span><span class="eval-v">3</span></div>
+                <div class="eval-row"><span class="eval-k">LOC</span><span class="eval-v">999</span></div>
+                <div class="eval-row"><span class="eval-k">Decomposition time</span><span class="eval-v orange">0.61 s</span></div>
+                <div class="eval-row"><span class="eval-k">Generated services</span><span class="eval-v">8</span></div>
+                <div class="eval-row"><span class="eval-k">Dependency pruning</span><span class="eval-v">avg 8.5 / 14</span></div>
+            </div>
+            <div class="eval-card">
+                <div class="eval-sys">Medium system</div>
+                <div class="eval-name">HR System</div>
+                <div class="eval-row"><span class="eval-k">Modules</span><span class="eval-v gold">6</span></div>
+                <div class="eval-row"><span class="eval-k">Source files</span><span class="eval-v">38</span></div>
+                <div class="eval-row"><span class="eval-k">Cross-module deps</span><span class="eval-v">5</span></div>
+                <div class="eval-row"><span class="eval-k">LOC</span><span class="eval-v">1 420</span></div>
+                <div class="eval-row"><span class="eval-k">Decomposition time</span><span class="eval-v gold">0.92 s</span></div>
+                <div class="eval-row"><span class="eval-k">Generated services</span><span class="eval-v">10</span></div>
+                <div class="eval-row"><span class="eval-k">Dependency pruning</span><span class="eval-v">avg 7.8 / 14</span></div>
+            </div>
+            <div class="eval-card">
+                <div class="eval-sys">Large system</div>
+                <div class="eval-name">University System</div>
+                <div class="eval-row"><span class="eval-k">Modules</span><span class="eval-v peri">9</span></div>
+                <div class="eval-row"><span class="eval-k">Source files</span><span class="eval-v">52</span></div>
+                <div class="eval-row"><span class="eval-k">Cross-module deps</span><span class="eval-v">12</span></div>
+                <div class="eval-row"><span class="eval-k">LOC</span><span class="eval-v">2 097</span></div>
+                <div class="eval-row"><span class="eval-k">Decomposition time</span><span class="eval-v peri">1.48 s</span></div>
+                <div class="eval-row"><span class="eval-k">Generated services</span><span class="eval-v">13</span></div>
+                <div class="eval-row"><span class="eval-k">Dependency pruning</span><span class="eval-v">avg 6.9 / 14</span></div>
+            </div>
+        </div>
+        <div class="callout tip" style="margin-top:24px">
+            <span>&#128218;</span>
+            <div>Full analysis including dependency pruning charts, code amplification ratios, and cross-module dependency graphs is available in the <a href="./resources/evaluation/0.2.4/FractalX-Evaluation.pdf"><strong>Evaluation Report</strong></a> (PDF, 21 pages).</div>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- ── CTA ── -->
+<section class="cta-section">
+    <div class="cta-inner">
+        <h2 class="cta-h">Start decomposing<br>your monolith today</h2>
+        <p class="cta-sub">Add two XML blocks to your <code style="font-family:var(--mono);font-size:13px;background:var(--bg2);padding:2px 7px;border-radius:4px;color:var(--text)">pom.xml</code>, annotate your module boundaries, and run one command. The entire platform is waiting in <code style="font-family:var(--mono);font-size:13px;background:var(--bg2);padding:2px 7px;border-radius:4px;color:var(--text)">fractalx-output/</code>.</p>
+        <div class="cta-btns">
+            <a href="#how-it-works" class="btn btn-primary" style="font-size:15px;padding:13px 28px">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Get started free
+            </a>
+            <a class="btn btn-ghost" onclick="openDocs()" style="font-size:15px;padding:13px 28px">
+                Read the docs
+            </a>
+        </div>
+        <div class="cta-note">Apache 2.0 &nbsp;&middot;&nbsp; No telemetry &nbsp;&middot;&nbsp; No account required</div>
+    </div>
+</section>
+
+<!-- ── FOOTER ── -->
 <footer>
-    <span>©<span id="year"></span> FractalX. All rights reserved.</span>
-    <div class="footer-links">
-        <a href="./privacy">Privacy</a>
-        <a href="#" id="contactLink">Contact</a>
-        <a href="https://www.linkedin.com/company/fractalx-dev/">LinkedIn</a>
+    <div class="foot-inner">
+        <div class="foot-logo">
+            <div class="logo-mark" style="width:22px;height:22px;border-radius:5px">
+                <svg width="18" height="18" viewBox="0 0 149 165" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18.2837 40L77.5674 70.7474L59.2837 106L0 75.2526L18.2837 40Z" fill="currentColor"/><path d="M18.2837 0H148.284V40H18.2837V0Z" fill="currentColor"/><path d="M59.2837 66H148.284V106H59.2837V66Z" fill="currentColor"/><path d="M59.2837 106V165H18.2837V106H59.2837Z" fill="currentColor"/></svg>
+            </div>
+            FractalX
+        </div>
+        <div class="foot-links">
+            <a class="foot-link" onclick="openDocs()">Docs</a>
+            <a href="https://github.com/Project-FractalX/FractalX" class="foot-link">GitHub</a>
+            <a href="https://github.com/Project-FractalX/FractalX/blob/main/LICENSE" class="foot-link">Apache 2.0</a>
+            <a href="https://github.com/Project-FractalX/FractalX/issues" class="foot-link">Issues</a>
+            <a href="/privacy/index.html" class="foot-link">Privacy Policy</a>
+            <a href="/terms/index.html" class="foot-link">Terms</a>
+        </div>
+        <div class="foot-copy">&copy; 2026 FractalX. Built with FractalX.</div>
     </div>
 </footer>
 
 <script>
-    const launchDate = new Date('2026-03-07T08:00:00Z');
+    /* ── THEME ── */
+    function toggleTheme(){
+        const isLight = document.documentElement.classList.toggle('light');
+        localStorage.setItem('frx-theme', isLight ? 'light' : 'dark');
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (!localStorage.getItem('frx-theme')) {
+            document.documentElement.classList.toggle('light', !e.matches);
+        }
+    });
 
-    function updateCountdown() {
-        const diff = Math.max(0, launchDate - Date.now());
-        const d = Math.floor(diff / 86400000);
-        const h = Math.floor((diff % 86400000) / 3600000);
-        const m = Math.floor((diff % 3600000) / 60000);
-        const s = Math.floor((diff % 60000) / 1000);
+    /* ── MOBILE MENU ── */
+    let mobOpen = false;
+    function toggleMob(){
+        mobOpen = !mobOpen;
+        document.getElementById('mob-menu').classList.toggle('open', mobOpen);
+        document.body.style.overflow = mobOpen ? 'hidden' : '';
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && mobOpen) toggleMob(); });
 
-        ['days','hours','minutes','seconds'].forEach((id, i) => {
-            const val = [d,h,m,s][i];
-            const el  = document.getElementById(id);
-            const str = String(val).padStart(2,'0');
-            if (el.textContent !== str) {
-                el.style.transition = 'opacity 0.15s, transform 0.15s';
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(-8px)';
-                setTimeout(() => {
-                    el.textContent = str;
-                    el.style.opacity = '1';
-                    el.style.transform = 'translateY(0)';
-                }, 150);
+    /* ── DOCS LINK ── */
+    function openDocs(){
+        // Link to the docs page — adjust path as needed
+        window.location.href = './docs';
+    }
+
+    /* ── SMOOTH SCROLL WITH OFFSET ── */
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+            const id = a.getAttribute('href').slice(1);
+            const el = document.getElementById(id);
+            if (el) {
+                e.preventDefault();
+                const top = el.getBoundingClientRect().top + window.scrollY - 72;
+                window.scrollTo({ top, behavior: 'smooth' });
             }
         });
-    }
+    });
 
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-
-    function handleSubmit(e) {
-        e.preventDefault();
-        document.getElementById('emailForm').style.display = 'none';
-        const msg = document.getElementById('successMsg');
-        msg.style.display = 'flex';
-    }
-
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    function initTicker() {
-        const track = document.querySelector('.ticker-track');
-        const originalItems = [...track.children];
-        const oneSetWidth = track.scrollWidth;
-
-        while (track.scrollWidth < window.innerWidth * 2 + oneSetWidth) {
-            originalItems.forEach(item => track.appendChild(item.cloneNode(true)));
-        }
-
-        const style = document.createElement('style');
-        style.textContent = `@keyframes ticker { to { transform: translateX(-${oneSetWidth}px); } }`;
-        document.head.appendChild(style);
-    }
-
-    document.fonts.ready.then(initTicker);
-
-    (function() {
-        const p = ['fractalx', '.dev', '\x40', 'gmail', '.com'];
-        document.getElementById('contactLink').addEventListener('click', function(e) {
-            e.preventDefault();
-            window.location.href = 'mailto:' + p.join('');
-        });
-    })();
+    /* ── NAVBAR SHADOW ON SCROLL ── */
+    const nav = document.querySelector('.nav');
+    window.addEventListener('scroll', () => {
+        nav.style.boxShadow = window.scrollY > 10
+            ? '0 1px 0 var(--border)'
+            : 'none';
+    }, { passive: true });
 </script>
 </body>
 </html>
